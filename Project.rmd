@@ -33,7 +33,6 @@ We first upload the R libraries that are necessary for the complete analysis.
 free up memory for the download of the data sets
 
 ```{r}
-#install.packages("rattle")
 rm(list=ls())                 
 setwd("/media/shashank/DATA/learning/Rstudio_Repo")
 #install.packages('caret',lib='~/')
@@ -42,7 +41,7 @@ library(knitr)
 library(caret)
 library(rpart)
 library(rpart.plot)
-library(rattle)
+#library(rattle)
 library(randomForest)
 library(corrplot)
 set.seed(12345)
@@ -100,7 +99,7 @@ bestCorrelations
 ```
 
 
-```{Plot}
+```{multiplot, echo=FALSE}
 library(Rmisc)
 library(ggplot2)
 
@@ -118,7 +117,7 @@ Model selection:
 
 In order to get more accurate model, correlation among variables is analysed before proceeding to the modeling procedures.
 
-```{Corelation Plot}
+```{Corelation Plot, echo=FALSE}
 library(corrplot)
 correlationMatrix <- cor(training.subSetTrain[, -classeIndex])
 highlyCorrelated <- findCorrelation(correlationMatrix, cutoff=0.9, exact=TRUE)
@@ -247,7 +246,7 @@ We'll stick with the rfMod.exclude model as the best model to use for predicting
 
 Before doing the final prediction we will examine the chosen model more in depth using some plots
 
-```{Check Model}
+```{Check Model, echo=FALSE}
 par(mfrow=c(1,2)) 
 varImpPlot(rfMod.exclude, cex=0.7, pch=16, main='Variable Importance Plot: rfMod.exclude')
 plot(rfMod.exclude,,cex=0.7, main='Error vs No. of trees plot')
@@ -266,7 +265,7 @@ rfMod.mds <- MDSplot(rfMod.exclude, as.factor(classeLevels), k=2, pch=20, palett
 
 Although we've chosen the rfMod.exclude it's still nice to see what the other 3 models would predict on the final test set. Let's look at predictions for all models on the final test set.
 
-```{Final}
+```{Final, echo=FALSE}
 library(cluster)
 rfMod.pam <- pam(1 - rfMod.exclude$proximity, k=length(classeLevels), diss=TRUE)
 
